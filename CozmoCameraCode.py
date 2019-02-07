@@ -6,14 +6,14 @@ from PIL import Image
 
 #import libraries for movement and asynchronous behavior
 import asyncio
-from cozmo.util import degrees, distance_mm
+from cozmo.util import degrees, distance_mm, Position
 
 #import these libraries when needed for threads
 import _thread
 import time
 
 
-def on_object_tapped(self, event, *, obj, tap_count, tap_duration, **kw):
+def on_object_tapped(robot: cozmo.robot.Robot, self, event, *, obj, tap_count, tap_duration, **kw):
 	robot.say_text("The cube was tapped").wait_for_completed()
 	return
 
@@ -59,11 +59,14 @@ def cozmo_program(robot: cozmo.robot.Robot):
 	finally:
 		cube1.set_lights_off()
 		if (success):
-			robot.say_text("Thank you for your service.").wait_for_completed()
+			robot.say_text("I will move to the cube.").wait_for_completed()
 		else:
 			robot.say_text("You didn't tap the cube properly.").wait_for_completed()
 		success = True
-
+	
+	robot.go_to_object(cube1, distance_mm(20))
+	robot.go_to_pose
+	
 	
 	try:
 		robot.say_text("Tap the green cube so I can take a picture.").wait_for_completed()
